@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightningSpawner : WeaponSpawner
 {
-    // Đã tối ưu hóa: Loại bỏ vòng lặp nháp thừa gây lỗi Unreachable Code
+   
     protected override IEnumerator StartAttack()
     {
         EnemySpawner enemySpawner = EnemySpawner.GetInstance();
@@ -71,7 +71,7 @@ public class LightningSpawner : WeaponSpawner
         }
     }
 
-    // Hàm phụ trợ viết gọn giúp tránh lặp code AudioManager nhiều lần
+  
     private void PlayLightningSound()
     {
         if (AudioManager.GetInstance() != null)
