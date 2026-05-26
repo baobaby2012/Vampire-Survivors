@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -72,7 +72,7 @@ public class Enemy : Character
     {
         rb.AddForce(enemyMove.GetDirection() * -2f, ForceMode2D.Impulse);
     }
-
+    // khi chết sẽ rơi kinh nghiệm
     public override void Die()
     {
         EnemySpawner.GetInstance().IncreaseKillCount();
