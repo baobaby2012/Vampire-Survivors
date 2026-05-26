@@ -3,7 +3,7 @@
 public class AudioManager : MonoBehaviour
 {
     private static AudioManager instance;
-
+    // cập nhật âm thanh phù hợp
     [Header("---- Audio Sources ----")]
     [SerializeField] private AudioSource musicSource; 
     [SerializeField] private AudioSource sfxSource;  
