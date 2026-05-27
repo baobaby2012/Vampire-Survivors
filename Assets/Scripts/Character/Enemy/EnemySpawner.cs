@@ -220,4 +220,9 @@ public class EnemySpawner : MonoBehaviour
     {
         return enemyList.Count;
     }
+   
+    public int GetKillCount()
+    {
+        return killCount;
+    }
 }

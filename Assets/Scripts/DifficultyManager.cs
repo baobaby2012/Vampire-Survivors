@@ -2,7 +2,7 @@
 
 public class DifficultyManager : MonoBehaviour
 {
-    // Tạo biến tĩnh lưu trữ Singleton
+  
     private static DifficultyManager instance;
 
     public static DifficultyManager GetInstance()
@@ -21,7 +21,7 @@ public class DifficultyManager : MonoBehaviour
 
     void Awake()
     {
-        // Khởi tạo Singleton
+     
         if (instance == null)
         {
             instance = this;
@@ -37,7 +37,7 @@ public class DifficultyManager : MonoBehaviour
         timeElapsed += Time.deltaTime;
     }
 
-    // Các hàm trả về hệ số nhân dựa trên số phút trôi qua
+
     public float GetHPMultiplier() => 1f + (timeElapsed / 60f) * hpIncreasePerMinute;
     public float GetSpeedMultiplier() => 1f + (timeElapsed / 60f) * speedIncreasePerMinute;
     public float GetSpawnIntervalMultiplier() => Mathf.Max(0.2f, 1f - (timeElapsed / 60f) * spawnSpeedUpPerMinute);
