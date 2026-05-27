@@ -1,69 +1,37 @@
-# 🦇 Vampire Survivors
+# 🗡️ [Tên Game Của Bạn] - 2D Survival Roguelite
 
-Một tựa game sinh tồn 2D mang phong cách màn hình dọc/ngang với cơ chế Auto-attack và Roguelite, được lấy cảm hứng trực tiếp từ hiện tượng *Vampire Survivors*. Nhiệm vụ của người chơi là sống sót lâu nhất có thể giữa hàng ngàn quái vật bao vây, thu thập ngọc kinh nghiệm để nâng cấp vũ khí và khám phá những kỹ năng tối thượng.
+![Unity](https://img.shields.io/badge/Unity-100000?style=for-the-badge&logo=unity&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![Status](https://img.shields.io/badge/Status-In%20Development-blueviolet?style=for-the-badge)
 
----
+Một tựa game sinh tồn 2D Pixel Art mang phong cách auto-attack thời gian thực (tương tự Vampire Survivors). Người chơi sẽ phải đối mặt với hàng ngàn quái vật bao vây từ mọi phía, thu thập tinh thể kinh nghiệm, thăng cấp và cố gắng sống sót lâu nhất có thể trước khi thời gian kết thúc.
 
-## 🎓 Thông Tin Đề Tài
+## 🌟 Tính năng nổi bật (Key Features)
 
-* **Trường:** Đại học Đà Lạt
-* **Môn học:** Phát triển ứng dụng game
-* **Giảng viên hướng dẫn:** Nguyễn Trọng Hiếu
-* **Nền tảng phát triển:** Unity 2D Engine (C#)
+* **Hệ thống sinh quái động (Dynamic Wave Spawner):** Quái vật xuất hiện xung quanh người chơi. Càng sống sót lâu, số lượng quái xuất hiện cùng lúc càng đông và thời gian giữa các đợt đẻ quái càng ngắn lại.
+* **Độ khó tăng tiến theo thời gian (Time-Based Difficulty):** Tích hợp `DifficultyManager` tự động khuếch đại máu và tốc độ di chuyển của quái vật theo mỗi phút trôi qua.
+* **Đường cong kinh nghiệm lũy tiến:** Sử dụng công thức toán học hàm mũ, yêu cầu lượng EXP khổng lồ ở giai đoạn cuối game để cân bằng sức mạnh người chơi.
+* **Tối ưu hóa hiệu năng cực cao:** Sử dụng triệt để kiến trúc **Object Pooling** cho quái vật, tinh thể EXP và sát thương nảy (Floating Text), cho phép render hàng trăm Entity trên màn hình mà không bị tụt FPS hay rác bộ nhớ (Garbage Collection).
+* **Đồ họa Pixel Art:** Hoạt ảnh mượt mà, phản hồi hình ảnh rõ ràng khi quái bị trúng đòn (Shader chớp trắng).
 
-### 🧑‍💻 Nhóm Phát Triển
+## 🛠️ Kiến trúc hệ thống & Kỹ thuật sử dụng
 
-| STT | Họ và Tên | Mã Số Sinh Viên | Vai trò |
-| :-: | :--- | :--- | :--- |
-| 1 | **Trương Bảo Bảo** | 2312582 | Core Gameplay, Weapon System, Object Pooling |
-| 2 | **Hoàng Trịnh Việt Linh** | 2312664 | Enemy AI, UI/UX, Audio System, Spawner Logic |
+Dự án này được xây dựng với mục tiêu Code Clean và dễ dàng mở rộng, áp dụng các Design Pattern chuẩn mực trong phát triển Game với Unity:
 
----
+* **Singleton Pattern:** Áp dụng cho các hệ thống cốt lõi chỉ có một bản thể duy nhất (`DifficultyManager`, `EnemySpawner`, `ObjectPoolManager`).
+* **Object Pooling:** Tái sử dụng GameObject thay vì Instantiate/Destroy liên tục để tối ưu Memory.
+* **Kế thừa & Đa hình (Inheritance & Polymorphism):** Xây dựng lớp cha `Character` chứa các thuộc tính chung (Máu, Initialize, ReceiveDamage), các loại quái đặc thù (`Enemy`) sẽ kế thừa và mở rộng tính năng.
+* **Coroutines:** Xử lý các tác vụ bất đồng bộ và trì hoãn thời gian (Delay Spawn, Hit Animation, Stage Timer) hiệu quả, không chặn luồng chính.
 
-## 🌟 Tính Năng Nổi Bật
+## 🚀 Hướng dẫn cài đặt (Getting Started)
 
-* **Hệ thống Vũ Khí Đa Dạng:** Bao gồm Cây roi (Whip), Rìu (Axe), Sét đánh (Lightning), Đũa phép (Magic Wand),... kết hợp với các phụ kiện tăng cường chỉ số.
-* **Object Pooling Tối Ưu:** Xử lý mượt mà hàng trăm kẻ địch và hàng ngàn viên ngọc kinh nghiệm (Crystal) trên màn hình cùng lúc mà không gây sụt giảm FPS.
-* **Cơ Chế Level-Up Roguelite:** Lựa chọn nâng cấp vũ khí ngẫu nhiên mỗi khi lên cấp, tạo ra giá trị chơi lại (replayability) cao.
-* **Đồ họa Pixel Art:** Giao diện hoài cổ kết hợp với hệ thống Particle System tạo hiệu ứng sát thương đã mắt.
-* **Âm Thanh Sống Động:** Tích hợp đầy đủ nhạc nền BGM dồn dập và hiệu ứng âm thanh (SFX) cho từng vũ khí, tương tác UI và nhận sát thương.
+### Yêu cầu hệ thống
+* **Unity Editor:** Khuyến nghị phiên bản `2022.3 LTS` hoặc mới hơn.
+* **Visual Studio / Rider** (hoặc bất kỳ IDE nào hỗ trợ C#).
 
----
+### Các bước khởi chạy
+1. Clone kho lưu trữ này về máy:
+   ```bash
+   git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
 
-## 🛠️ Kiến Trúc Khung (Tech Stack)
-
-* **Ngôn ngữ:** C#
-* **Game Engine:** Unity (Phiên bản khuyên dùng: 2022 LTS trở lên)
-* **Design Pattern áp dụng:** Singleton (cho các trình quản lý như GameManager, Inventory), Object Pool (quản lý bộ nhớ).
-* **UI System:** Unity Canvas, TextMeshPro.
-
----
-
-## 📋 Phân Công Công Việc Chi Tiết
-
-### Trương Bảo Bảo
-- Xây dựng lớp kiến trúc cha (Character, Weapon, WeaponSpawner).
-- Lập trình logic điều khiển nhân vật chính (Movement).
-- Phát triển hệ thống Vũ khí & Phụ kiện (Inventory, Level up vũ khí).
-- Tối ưu hóa hiệu suất với Object Pooling.
-
-### Hoàng Trịnh Việt Linh
-- Quản lý trí tuệ nhân tạo (AI) của kẻ địch và hệ thống sinh quái (Enemy Spawner).
-- Thiết kế và lập trình luồng giao diện UI (Main Menu, Pause, Game Over, Level Up Window).
-- Lập trình hệ thống Audio Manager (BGM, SFX).
-- Xử lý các hiệu ứng hình ảnh (Damage Text, Screen Shake).
-
----
-
-## 🚀 Hướng Dẫn Cài Đặt
-
-1.  Clone kho lưu trữ này về máy:
-    ```bash
-    git clone [https://github.com/YourUsername/Pixel-Survivors.git](https://github.com/YourUsername/Pixel-Survivors.git)
-    ```
-2.  Mở **Unity Hub**, chọn **Add project from disk** và trỏ đến thư mục vừa clone.
-3.  Mở Scene chính tại: `Assets/Scenes/MainGame.unity`.
-4.  Nhấn nút **Play** trên cửa sổ Unity để trải nghiệm game.
-
----
-*Dự án được thực hiện nhằm mục đích học tập và nghiên cứu trong khuôn khổ môn học Phát triển ứng dụng game.*
+   
