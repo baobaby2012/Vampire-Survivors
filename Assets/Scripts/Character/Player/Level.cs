@@ -108,7 +108,6 @@ public class Level : MonoBehaviour
         maxExpValue = 50 * level;
         expSlider.maxValue = maxExpValue;
 
-        // CHÈN TẠI ĐÂY: Phát tiếng hiệu ứng chúc mừng lên cấp
         if (AudioManager.GetInstance() != null)
         {
             AudioManager.GetInstance().PlaySFX(AudioManager.GetInstance().levelUpSFX);
