@@ -18,7 +18,10 @@ public class Enemy : Character
 
     void OnEnable()
     {
-        InitHealthPoint();
+        InitHealthPoint(); // Reset máu về mặc định ban đầu của class cha
+
+        ScaleDifficulty(); // <--- THÊM VÀO ĐÂY: Tính toán lại độ khó dựa theo thời gian trận đấu
+
         GetComponent<CapsuleCollider2D>().enabled = true;
         spriteRenderer.material.shader = shaderSpritesDefault;
         hitCoroutine = null;
@@ -32,6 +35,28 @@ public class Enemy : Character
         shaderSpritesDefault = Shader.Find("Sprites/Default");
         enemyMove = GetComponent<EnemyMove>();
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    // Hàm tự động điều chỉnh chỉ số quái trâu hơn và nhanh hơn
+    void ScaleDifficulty()
+    {
+        if (DifficultyManager.GetInstance() == null) return;
+
+        float hpMultiplier = DifficultyManager.GetInstance().GetHPMultiplier();
+        float speedMultiplier = DifficultyManager.GetInstance().GetSpeedMultiplier();
+
+        // 1. LÀM QUÁI TRÂU HƠN:
+        // Vì bạn dùng hàm InitHealthPoint() từ class cha (Character), bạn hãy kiểm tra tên biến 
+        // lưu lượng máu thực tế trong class Character của bạn (ví dụ: hp, healthPoint, currentHP...)
+        // Hãy bỏ gạch chéo và đổi tên biến phía dưới cho đúng với class Character của bạn:
+        // healthPoint = Mathf.RoundToInt(healthPoint * hpMultiplier);
+
+        // 2. LÀM QUÁI CHẠY NHANH HƠN:
+        if (enemyMove != null)
+        {
+            // Tương tự, hãy kiểm tra biến tốc độ hoặc tạo hàm thay đổi tốc độ trong script EnemyMove của bạn:
+            // enemyMove.speed = enemyMove.baseSpeed * speedMultiplier;
+        }
     }
 
     public override void ReduceHealthPoint(int damage)
@@ -63,7 +88,7 @@ public class Enemy : Character
 
         textMesh.text = damage.ToString();
 
-        rectTransform.position = new Vector3(transform.position.x, transform.position.y + 0.5f ,rectTransform.position.z);
+        rectTransform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, rectTransform.position.z);
 
         damageText.SetActive(true);
     }
@@ -72,6 +97,7 @@ public class Enemy : Character
     {
         rb.AddForce(enemyMove.GetDirection() * -2f, ForceMode2D.Impulse);
     }
+
     // khi chết sẽ rơi kinh nghiệm
     public override void Die()
     {

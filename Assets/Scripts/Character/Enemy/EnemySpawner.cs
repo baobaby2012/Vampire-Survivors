@@ -12,7 +12,6 @@ public class EnemySpawner : MonoBehaviour
     const float maxX = 10;
     const float maxY = 16;
 
-  
     float spawnDelay = 0.25f;
     int stage;
     int killCount;
@@ -34,9 +33,9 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnEnemy());      
-        StartCoroutine(listChecker());     
-        StartCoroutine(StageTimer());      
+        StartCoroutine(SpawnEnemy());
+        StartCoroutine(listChecker());
+        StartCoroutine(StageTimer());
     }
 
     void Initialize()
@@ -46,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
         killCount = 0;
     }
 
-   // Chỉnh thời gian spawn quái
+    // Chỉnh thời gian spawn quái
     IEnumerator StageTimer()
     {
         while (stage < 5)
@@ -59,16 +58,16 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemy()
     {
         GameObject newEnemy;
-        int spawnAmountPerTick = 2; // Mỗi 0.25s đẻ ra 2 con quái
+        int baseSpawnAmountPerTick = 2; // Khởi đầu mỗi nhịp đẻ ra 2 con quái
 
         while (true)
         {
-            for (int i = 0; i < spawnAmountPerTick; i++)
+            // MỚI THÊM 1: Càng lên Stage cao, số lượng quái xuất hiện trong CÙNG 1 LÚC càng nhiều
+            int currentSpawnAmount = baseSpawnAmountPerTick + (stage - 1);
+
+            for (int i = 0; i < currentSpawnAmount; i++)
             {
-                // THAY ĐỔI CỐT LÕI TẠI ĐÂY:
                 // Chọn ngẫu nhiên một Stage từ 1 đến Stage hiện tại để lấy quái.
-                // Ví dụ: Nếu đang ở Stage 3, biến này sẽ ra ngẫu nhiên số 1, 2, hoặc 3.
-                // Do đó game sẽ đẻ TRỘN LẪN cả quái cũ và quái mới vào nhau!
                 int randomStagePool = Random.Range(1, stage + 1);
 
                 switch (randomStagePool)
@@ -109,8 +108,16 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
 
-            // Chờ 0.25 giây rồi tiếp tục vòng lặp đẻ quái kế tiếp
-            yield return new WaitForSeconds(spawnDelay);
+            // MỚI THÊM 2: Lấy thời gian chờ gốc (spawnDelay) nhân với hệ số giảm dần từ DifficultyManager
+            // Điều này ép thời gian sinh quái bị bóp ngắn lại liên tục khi trận đấu kéo dài
+            float actualDelay = spawnDelay;
+            if (DifficultyManager.GetInstance() != null)
+            {
+                actualDelay *= DifficultyManager.GetInstance().GetSpawnIntervalMultiplier();
+            }
+
+            // Chờ theo thời gian đã được bóp ngắn rồi tiếp tục vòng lặp
+            yield return new WaitForSeconds(actualDelay);
         }
     }
 
